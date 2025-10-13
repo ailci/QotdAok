@@ -62,7 +62,7 @@ var app = builder.Build();
 //});
 
 //BrowserAllowed
-app.UseBrowserAllowed(Browser.Chrome, Browser.Edge);
+//app.UseBrowserAllowed(Browser.Chrome, Browser.Edge);
 
 if (app.Environment.IsDevelopment())
 {
