@@ -16,12 +16,23 @@ namespace UI.Blazor.Middleware
 
 
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
-    public class BrowserAllowed(RequestDelegate next)
+    public class BrowserAllowed(RequestDelegate next, IEnumerable<Browser> browsersAllowed)
     {
-        public Task Invoke(HttpContext httpContext)
+        public async Task Invoke(HttpContext httpContext)
         {
+            var clientBrowserType = IdentitfyBrowser(httpContext);
 
-            return next(httpContext);
+            if (browsersAllowed.Any(browser => browser == clientBrowserType))
+            {
+                await next(httpContext);
+            }
+            else
+            {
+                httpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+                httpContext.Response.ContentType = "text/html";
+                await httpContext.Response.WriteAsync(
+                    $"Der Browser ist nicht erlaubt ({clientBrowserType}). <a href=\"https://browsehappy.com\">BrowseHappy</a>");
+            }
         }
 
         private Browser IdentitfyBrowser(HttpContext httpContext)
@@ -62,9 +73,9 @@ namespace UI.Blazor.Middleware
     // Extension method used to add the middleware to the HTTP request pipeline.
     public static class BrowserAllowedExtensions
     {
-        public static IApplicationBuilder UseBrowserAllowed(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseBrowserAllowed(this IApplicationBuilder builder, params IEnumerable<Browser> browsersAllowed)
         {
-            return builder.UseMiddleware<BrowserAllowed>();
+            return builder.UseMiddleware<BrowserAllowed>(browsersAllowed);
         }
     }
 }
