@@ -10,8 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents()
+    .AddInteractiveServerComponents() //Blazor Server
+    .AddInteractiveWebAssemblyComponents() //Blator Wasm
     .AddAuthenticationStateSerialization();
 
 builder.Services.AddCascadingAuthenticationState();
@@ -40,7 +40,26 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline. ################################################
+//app.Use(async (context, next) =>
+//{
+//    var userAgent = context.Request.Headers["User-Agent"][0];
+//    await context.Response.WriteAsync("Erste middleware\n");
+//    await context.Response.WriteAsync($"User-Agent: {userAgent}\n");
+//    await next();
+//    await context.Response.WriteAsync("Erste back middleware\n");
+//});
+//app.Use(async (context, next) =>
+//{
+//    await context.Response.WriteAsync("Zweite middleware\n");
+//    await next();
+//    await context.Response.WriteAsync("Zweite back middleware\n");
+//});
+//app.Run(async context =>
+//{
+//    await context.Response.WriteAsync("End middleware\n");
+//});
+
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
