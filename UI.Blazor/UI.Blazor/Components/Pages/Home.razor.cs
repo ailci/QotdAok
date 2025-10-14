@@ -1,5 +1,6 @@
 using Application.ViewModels.Qotd;
 using Microsoft.AspNetCore.Components;
+using Persistence;
 
 namespace UI.Blazor.Components.Pages;
 public partial class Home
@@ -9,9 +10,14 @@ public partial class Home
 
     public QuoteOfTheDayViewModel? QotdViewModel { get; set; }
 
+    [Inject]
+    public QotdContext QotdContext { get; set; } = null!;
+
     protected override void OnInitialized()
     {
         Logger.LogInformation("OnInitialized aufgerufen...");
+
+        var authors = QotdContext.Authors.ToList();
 
         QotdViewModel = new QuoteOfTheDayViewModel
         {
