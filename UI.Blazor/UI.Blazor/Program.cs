@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 using UI.Blazor.Client.Pages;
 using UI.Blazor.Components;
 using UI.Blazor.Components.Account;
@@ -38,6 +39,9 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+//DbContext
+builder.Services.AddPersistenceServices(builder.Configuration);
 
 var app = builder.Build();
 
