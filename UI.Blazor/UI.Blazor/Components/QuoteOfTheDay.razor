@@ -12,15 +12,23 @@ else
                     @Title
                 </h5>
                 <p class="text-center">
-                    @if (!string.IsNullOrWhiteSpace(QotdVm.AuthorPhotoMimeType) && QotdVm.AuthorPhoto is not null)
+                    
+                    <!-- 1. Version -->
+                   @*  @if (!string.IsNullOrWhiteSpace(QotdVm.AuthorPhotoMimeType) && QotdVm.AuthorPhoto is not null)
                     {
                         <!-- src="data:MIMETYPE;base64,NUTZDATEN" -->
-                        <img width="150" src="data:@QotdVm.AuthorPhotoMimeType;base64,@Convert.ToBase64String(QotdVm.AuthorPhoto)" alt="@QotdVm.AuthorName" />
+                        <img width="150" src="data:@QotdVm.AuthorPhotoMimeType;base64,@Convert.ToBase64String(QotdVm.AuthorPhoto)" alt="@QotdVm.AuthorName"/>
                     }
                     else
                     {
-                        <img width="150" src="img/noimg.jpg" alt="Kein Bild" />
-                    }
+                        <img width="150" src="img/noimg.jpg" alt="Kein Bild"/>
+                    } *@
+                    
+                    <!-- 2. Version als Component -->
+                    <DataImageUri ImageMimeType="@QotdVm.AuthorPhotoMimeType"
+                                  Image="@QotdVm.AuthorPhoto"
+                                  alt="@QotdVm.AuthorName" width="150">
+                    </DataImageUri>
                 </p>
                 <blockquote class="text-center">
                     <p class="lead fw-bold">@QotdVm.QuoteText</p>
