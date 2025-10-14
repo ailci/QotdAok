@@ -14,7 +14,8 @@ else
                 <p class="text-center">
                     @if (!string.IsNullOrWhiteSpace(QotdVm.AuthorPhotoMimeType) && QotdVm.AuthorPhoto is not null)
                     {
-                        <!-- TODO: bild anzeigen -->
+                        <!-- src="data:MIMETYPE;base64,NUTZDATEN" -->
+                        <img width="150" src="data:@QotdVm.AuthorPhotoMimeType;base64,@Convert.ToBase64String(QotdVm.AuthorPhoto)" alt="@QotdVm.AuthorName" />
                     }
                     else
                     {

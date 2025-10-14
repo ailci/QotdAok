@@ -1,5 +1,6 @@
 using Application.ViewModels.Qotd;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace UI.Blazor.Components.Pages;
@@ -10,21 +11,22 @@ public partial class Home
 
     public QuoteOfTheDayViewModel? QotdViewModel { get; set; }
 
-    [Inject]
-    public QotdContext QotdContext { get; set; } = null!;
+    [Inject] public QotdContext QotdContext { get; set; } = null!;
 
     protected override void OnInitialized()
     {
         Logger.LogInformation("OnInitialized aufgerufen...");
 
-        var authors = QotdContext.Authors.ToList();
+        var qotd = QotdContext.Quotes.Include(c => c.Author).First();
 
         QotdViewModel = new QuoteOfTheDayViewModel
         {
-            QuoteText = "Larum lierum Löffelstiel",
-            AuthorName = "Ich",
-            AuthorDescription = "Dozent",
-            AuthorBirthDate = new DateOnly(1978, 07, 13)
+            QuoteText = qotd.QuoteText,
+            AuthorName = qotd.Author?.Name,
+            AuthorDescription = qotd.Author?.Description,
+            AuthorBirthDate = qotd.Author?.BirthDate,
+            AuthorPhoto = qotd.Author?.Photo,
+            AuthorPhotoMimeType = qotd.Author?.PhotoMimeType
         };
     }
 
