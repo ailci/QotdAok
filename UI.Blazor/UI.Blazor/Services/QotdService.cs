@@ -5,11 +5,13 @@ using Persistence;
 
 namespace UI.Blazor.Services;
 
-public class QotdService(ILogger<QotdService> logger, QotdContext context) : IQotdService
+public class QotdService(ILogger<QotdService> logger, IDbContextFactory<QotdContext> contextFactory) : IQotdService
 {
     public async Task<QuoteOfTheDayViewModel> GetQuoteOfTheDayAsync()
     {
         logger.LogInformation($"{nameof(GetQuoteOfTheDayAsync)} aufgerufen...");
+
+        await using var context = await contextFactory.CreateDbContextAsync();
 
         var quotes = await context.Quotes.Include(c => c.Author).ToListAsync();
         var random = new Random();
