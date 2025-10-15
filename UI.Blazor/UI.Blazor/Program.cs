@@ -48,6 +48,7 @@ builder.Services.AddPersistenceServices(builder.Configuration);
 
 //DI
 builder.Services.AddScoped<IQotdService, QotdService>();
+builder.Services.AddScoped<IServiceManager, ServiceManager>();
 
 var app = builder.Build();
 
