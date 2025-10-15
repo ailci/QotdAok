@@ -2,7 +2,12 @@
 @page "/home"
 @page "/index"
 
+@* @rendermode InteractiveServer *@
+@rendermode @(new InteractiveServerRenderMode(prerender: true))
+
 <PageTitle>Home</PageTitle>
 
 
 <QuoteOfTheDay Title="Spruch des Tages" QotdVm="@QotdViewModel"></QuoteOfTheDay>
+
+<BlazorInfo />
