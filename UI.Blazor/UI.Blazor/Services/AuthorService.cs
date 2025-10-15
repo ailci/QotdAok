@@ -12,5 +12,33 @@ public class AuthorService(ILogger<AuthorService> logger, IDbContextFactory<Qotd
         logger.LogInformation($"{nameof(GetAuthorsAsync)} aufgerufen...");
 
         await using var context = await contextFactory.CreateDbContextAsync();
+
+        var authors = await context.Authors.ToListAsync();
+
+        var authorViewModels = authors.Select(author => new AuthorViewModel
+        {
+            Id = author.Id,
+            Name = author.Name,
+            Description = author.Description,
+            BirthDate = author.BirthDate,
+            Photo = author.Photo,
+            PhotoMimeType = author.PhotoMimeType
+        });
+
+        return authorViewModels;
+
+        //Old-fashioned way
+        //var authorList = new List<AuthorViewModel>();
+        //foreach (var author in authorViewModels)
+        //{
+        //    authorList.Add(new AuthorViewModel
+        //    {
+        //        Id = author.Id,
+        //        Name = author.Name,
+        //        Description = author.Description,
+        //        Photo = author.Photo,
+        //        PhotoMimeType = author.PhotoMimeType
+        //    });
+        //}
     }
 }
