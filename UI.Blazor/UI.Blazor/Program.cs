@@ -1,3 +1,4 @@
+using Application.Contracts.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -5,8 +6,10 @@ using Persistence;
 using UI.Blazor.Client.Pages;
 using UI.Blazor.Components;
 using UI.Blazor.Components.Account;
+using UI.Blazor.Components.Pages;
 using UI.Blazor.Data;
 using UI.Blazor.Middleware;
+using UI.Blazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +45,9 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 //DbContext
 builder.Services.AddPersistenceServices(builder.Configuration);
+
+//DI
+builder.Services.AddScoped<IQotdService, QotdService>();
 
 var app = builder.Build();
 
