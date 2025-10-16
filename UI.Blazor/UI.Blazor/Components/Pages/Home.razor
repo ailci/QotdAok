@@ -8,6 +8,10 @@
 <PageTitle>Home</PageTitle>
 
 
-<QuoteOfTheDay Title="Spruch des Tages" QotdVm="@QotdViewModel"></QuoteOfTheDay>
+<QuoteOfTheDay Title="Spruch des Tages" QotdVm="@QotdViewModel">
+    <LogOfQotd>
+        <div class="alert alert-dark">@QotdViewModel?.LogAsJson()</div>
+    </LogOfQotd>
+</QuoteOfTheDay>
 
 <BlazorInfo />
