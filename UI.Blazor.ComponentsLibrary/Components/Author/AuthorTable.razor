@@ -6,32 +6,34 @@ else
 {
     <table class="table table-hover table-striped">
         <thead>
-            <tr>
-                <th>Photo</th>
-                <th>Name</th>
-                <th>Beschreibung</th>
-                <th>Geburtsdatum</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>Photo</th>
+            <th>Name</th>
+            <th>Beschreibung</th>
+            <th>Geburtsdatum</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var author in AuthorViewModels)
-            {
-                <tr>
-                    <td>
-                        <DataImageUri ImageMimeType="@author.PhotoMimeType"
-                                      Image="@author.Photo"
-                                      alt="@author.Name" width="100">
-                        </DataImageUri>
-                    </td>
-                    <td>@author.Name</td>
-                    <td>@author.Description</td>
-                    <td>@(author.BirthDate is not null ? author.BirthDate.Value.ToShortDateString() : "k.A.")</td>
-                    <td>
-                        <button class="btn btn-danger" @onclick="() => ShowConfirmationDialog(author)">Löschen</button>
-                    </td>
-                </tr>
-            }
+        @foreach (var author in AuthorViewModels)
+        {
+            <tr>
+                <td>
+                    <DataImageUri ImageMimeType="@author.PhotoMimeType"
+                                  Image="@author.Photo"
+                                  alt="@author.Name" width="100">
+                    </DataImageUri>
+                </td>
+                <td>@author.Name</td>
+                <td>@author.Description</td>
+                <td>@(author.BirthDate is not null ? author.BirthDate.Value.ToShortDateString() : "k.A.")</td>
+                <td>
+                    <button class="btn btn-danger" @onclick="() => ShowConfirmationDialog(author)">Löschen</button>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
+
+    <ConfirmDialog @ref="_confirmDialogComponent" ConfirmTitle="Löschen bestätigen" OnConfirmDelete="ConfirmDeleteClicked"></ConfirmDialog>
 }

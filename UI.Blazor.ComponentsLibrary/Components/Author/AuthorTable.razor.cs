@@ -12,6 +12,7 @@ public partial class AuthorTable
     [Parameter] public EventCallback<Guid> OnAuthorDelete { get; set; }
     [Parameter] public IEnumerable<AuthorViewModel>? AuthorViewModels { get; set; }
     private Guid _authorIdToDelete;
+    private ConfirmDialog? _confirmDialogComponent; //Referenz zur Componente
 
     private async Task ShowConfirmationDialog(AuthorViewModel authorVm)
     {
@@ -32,6 +33,13 @@ public partial class AuthorTable
         //}
 
         //3.Version
-
+        _confirmDialogComponent?.Show($"Wollen Sie wirklich den Author {authorVm?.Name} löschen?");
+    }
+    private async Task ConfirmDeleteClicked(bool isDeletedConfirmed)
+    {
+        if (_authorIdToDelete != Guid.Empty)
+        {
+            await OnAuthorDelete.InvokeAsync(_authorIdToDelete);
+        }
     }
 }
