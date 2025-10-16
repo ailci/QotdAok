@@ -1,41 +1,18 @@
 ﻿@page "/authors/overview"
+@using UI.Blazor.ComponentsLibrary.Components.Author
 
 @rendermode @(new InteractiveServerRenderMode(prerender: false))
 
-@if (AuthorsVm is null || !AuthorsVm.Any())
+@if (!string.IsNullOrEmpty(ErrorMessage))
 {
-    <div>Daten werden geladen...</div>
+    <div class="alert alert-danger">@ErrorMessage</div>
 }
-else
-{
-    <table class="table table-hover table-striped">
-        <thead>
-            <tr>
-                <th>Photo</th>
-                <th>Name</th>
-                <th>Beschreibung</th>
-                <th>Geburtsdatum</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var author in AuthorsVm)
-            {
-                <tr>
-                    <td>
-                        <DataImageUri ImageMimeType="@author.PhotoMimeType"
-                                      Image="@author.Photo" 
-                                      alt="@author.Name" width="100">
-                        </DataImageUri>
-                    </td>
-                    <td>@author.Name</td>
-                    <td>@author.Description</td>
-                    <td>@(author.BirthDate is not null ? author.BirthDate.Value.ToShortDateString() : "k.A.")</td>
-                    <td>
-                        <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+
+
+<!-- Tabelle der Autoren -->
+<div class="row">
+    <div class="col">
+        <AuthorTable AuthorViewModels="AuthorsVm"></AuthorTable>
+    </div>
+</div>
+

@@ -7,6 +7,19 @@ namespace UI.Blazor.Services;
 
 public class AuthorService(ILogger<AuthorService> logger, IDbContextFactory<QotdContext> contextFactory) : IAuthorService
 {
+    public async Task<bool> DeleteAuthorAsync(Guid authorId)
+    {
+        logger.LogInformation($"{nameof(DeleteAuthorAsync)} aufgerufen mit AuthorId: {authorId}...");
+        await using var context = await contextFactory.CreateDbContextAsync();
+
+        var author = await context.Authors.FindAsync(authorId);
+
+        if (author is null) return false;
+
+        context.Authors.Remove(author);
+        return await context.SaveChangesAsync() > 0;
+    }
+
     public async Task<IEnumerable<AuthorViewModel>> GetAuthorsAsync()
     {
         logger.LogInformation($"{nameof(GetAuthorsAsync)} aufgerufen...");
