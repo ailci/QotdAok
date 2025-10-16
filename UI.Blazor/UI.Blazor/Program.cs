@@ -7,6 +7,7 @@ using UI.Blazor.Client.Pages;
 using UI.Blazor.Components;
 using UI.Blazor.Components.Account;
 using UI.Blazor.Components.Pages;
+using UI.Blazor.ComponentsLibrary;
 using UI.Blazor.Data;
 using UI.Blazor.Middleware;
 using UI.Blazor.Services;
@@ -50,6 +51,9 @@ builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddScoped<IQotdService, QotdService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
+
+//Component Library
+builder.Services.ConfigComponentLibrary();
 
 var app = builder.Build();
 
