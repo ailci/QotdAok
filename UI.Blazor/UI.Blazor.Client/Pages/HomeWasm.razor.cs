@@ -1,3 +1,4 @@
+using System.Net.Http.Json;
 using System.Text.Json;
 using Application.ViewModels.Qotd;
 using Microsoft.AspNetCore.Components;
@@ -14,13 +15,15 @@ public partial class HomeWasm
         Logger.LogInformation($"Home Wasm aufgerufen...");
 
         //1. Version
+        //var client = HttpClientFactory.CreateClient("qotdapiservice");
+        //var response = await client.GetAsync("authors/quotes/qotd");
+        //response.EnsureSuccessStatusCode();
+        //var content = await response.Content.ReadAsStringAsync();
+        //Logger.LogInformation($"RÜCKGABE: {content}");
+        //QotdViewModel = JsonSerializer.Deserialize<QuoteOfTheDayViewModel>(content, new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
+
+        //2.Version Abkürzung
         var client = HttpClientFactory.CreateClient("qotdapiservice");
-        var response = await client.GetAsync("authors/quotes/qotd");
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
-
-        Logger.LogInformation($"RÜCKGABE: {content}");
-
-        QotdViewModel = JsonSerializer.Deserialize<QuoteOfTheDayViewModel>(content, new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
+        QotdViewModel = await client.GetFromJsonAsync<QuoteOfTheDayViewModel>("authors/quotes/qotd");
     }
 }
