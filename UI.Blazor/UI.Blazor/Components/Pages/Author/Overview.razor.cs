@@ -7,6 +7,7 @@ public partial class Overview
 {
     [Inject] public ILogger<Overview> Logger { get; set; } = null!;
     [Inject] public IServiceManager ServiceManager { get; set; } = null!;
+    [Inject] public NavigationManager NavManager { get; set; } = null!;
     public IEnumerable<AuthorViewModel>? AuthorsVm { get; set; }
     public string? ErrorMessage { get; set; }
 
@@ -37,5 +38,10 @@ public partial class Overview
     private async Task GetAuthors()
     {
         AuthorsVm = (await ServiceManager.AuthorService.GetAuthorsAsync()).OrderBy(c => c.Name);
+    }
+    
+    private void NavigateToAuthorNew()
+    {
+        NavManager.NavigateTo("/authors/new");
     }
 }

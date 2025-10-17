@@ -1,0 +1,62 @@
+﻿@page "/authors/new"
+
+@rendermode InteractiveServer
+
+<div class="row">
+    <div class="col">
+        <h4>Autor erstellen</h4>
+        <hr />
+    </div>
+</div>
+<div class="row align-items-center">
+    <div class="col-6">
+        <!-- Formular -->
+        <EditForm Model="@AuthorForCreateVm" OnValidSubmit="HandleValidSubmit" class="card card-body bg-light">
+            
+            <!-- Name -->
+            <div class="form-floating mb-3">
+                <InputText id="Name"
+                           class="form-control"
+                           @bind-Value="@AuthorForCreateVm!.Name"
+                           placeholder=" ">
+                </InputText>
+                <label for="Name">Name</label>
+            </div>
+
+            <!-- Description -->
+            <div class="form-floating mb-3">
+                <InputText id="Description"
+                           class="form-control"
+                           @bind-Value="@AuthorForCreateVm.Description"
+                           placeholder=" ">
+                </InputText>
+                <label for="Description">Beschreibung</label>
+            </div>
+
+            <!-- BirthData -->
+            <div class="form-floating mb-3">
+                <InputDate id="BirthDate"
+                           class="form-control"
+                           @bind-Value="@AuthorForCreateVm.BirthDate"
+                           placeholder=" ">
+                </InputDate>
+                <label for="BirthDate">Geburtsdatum</label>
+            </div>
+
+            <!-- Photo -->
+            <div class="form-floating mb-3">
+                <InputFile OnChange="OnInputFileChange" id="Photo"
+                           class="form-control"
+                           @bind-Value="@AuthorForCreateVm.Photo"
+                           placeholder=" ">
+                </InputFile>
+                <label for="Photo">Photo</label>
+            </div>
+            
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">speichern</button>
+            </div>
+
+        </EditForm>
+    </div>
+</div>
