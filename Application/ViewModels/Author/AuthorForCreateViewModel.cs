@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Validations;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Application.ViewModels.Author;
@@ -21,6 +22,8 @@ public class AuthorForCreateViewModel
     [Required(ErrorMessage = "Bitte geben Sie eine Beschreibung ein")]
     [MinLength(2, ErrorMessage = "Bitte geben Sie eine Beschreibung mit mind. 2 Zeichen ein")]
     public required string Description { get; set; }
+
+    [NoFutureDate(ErrorMessage = "Das Geburtsdatum liegt in der Zukunft")]
     public DateOnly? BirthDate { get; set; }
 
     public IBrowserFile? Photo { get; set; }
