@@ -1,5 +1,7 @@
 ﻿using Application.Contracts.Services;
+using Application.Utilities;
 using Application.ViewModels.Author;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -7,6 +9,29 @@ namespace UI.Blazor.Services;
 
 public class AuthorService(ILogger<AuthorService> logger, IDbContextFactory<QotdContext> contextFactory) : IAuthorService
 {
+    public async Task<AuthorViewModel> AddAuthorAsync(AuthorForCreateViewModel authorForCreateViewModel)
+    {
+        logger.LogInformation($"{nameof(AddAuthorAsync)} aufgerufen mit AuthorForCreate: {authorForCreateViewModel.LogAsJson()}...");
+        await using var context = await contextFactory.CreateDbContextAsync();
+
+        var author = new Author
+        {
+            Name = authorForCreateViewModel.Name,
+            Description = authorForCreateViewModel.Description,
+            BirthDate = authorForCreateViewModel.BirthDate
+        };
+
+        //Bild vorhanden
+        if (authorForCreateViewModel.Photo is not null)
+        {
+            (author.Photo, author.PhotoMimeType) = await authorForCreateViewModel.Photo.GetFile();
+        }
+
+        logger.LogInformation($"Author: {author.LogAsJson()}");
+
+        return await Task.FromResult(new AuthorViewModel() { Description = "", Name = "" });
+    }
+
     public async Task<bool> DeleteAuthorAsync(Guid authorId)
     {
         logger.LogInformation($"{nameof(DeleteAuthorAsync)} aufgerufen mit AuthorId: {authorId}...");
