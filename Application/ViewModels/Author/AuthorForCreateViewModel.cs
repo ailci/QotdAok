@@ -12,7 +12,14 @@ namespace Application.ViewModels.Author;
 public class AuthorForCreateViewModel
 {
     public Guid Id { get; set; }
+
+    [Required(ErrorMessage = "Bitte geben Sie einen Namen ein")]
+    [Length(2, 150, ErrorMessage = "Name ist zu kurz/lang")]
+    [DeniedValues(["admin","administrator","root","god"], ErrorMessage = "Der Name ist nicht erlaubt")]
     public required string Name { get; set; }
+
+    [Required(ErrorMessage = "Bitte geben Sie eine Beschreibung ein")]
+    [MinLength(2, ErrorMessage = "Bitte geben Sie eine Beschreibung mit mind. 2 Zeichen ein")]
     public required string Description { get; set; }
     public DateOnly? BirthDate { get; set; }
 

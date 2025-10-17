@@ -12,7 +12,10 @@
     <div class="col-6">
         <!-- Formular -->
         <EditForm Model="@AuthorForCreateVm" OnValidSubmit="HandleValidSubmit" class="card card-body bg-light">
-            
+
+            <DataAnnotationsValidator />
+            @* <ValidationSummary /> *@
+
             <!-- Name -->
             <div class="form-floating mb-3">
                 <InputText id="Name"
@@ -21,6 +24,7 @@
                            placeholder=" ">
                 </InputText>
                 <label for="Name">Name</label>
+                <ValidationMessage For="() => AuthorForCreateVm.Name"></ValidationMessage>
             </div>
 
             <!-- Description -->
@@ -31,6 +35,7 @@
                            placeholder=" ">
                 </InputText>
                 <label for="Description">Beschreibung</label>
+                <ValidationMessage For="() => AuthorForCreateVm.Description"></ValidationMessage>
             </div>
 
             <!-- BirthData -->
@@ -41,6 +46,7 @@
                            placeholder=" ">
                 </InputDate>
                 <label for="BirthDate">Geburtsdatum</label>
+                <ValidationMessage For="() => AuthorForCreateVm.BirthDate"></ValidationMessage>
             </div>
 
             <!-- Photo -->
@@ -51,10 +57,11 @@
                            placeholder=" ">
                 </InputFile>
                 <label for="Photo">Photo</label>
+                <ValidationMessage For="() => AuthorForCreateVm.Photo"></ValidationMessage>
             </div>
             
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">speichern</button>
+                <button type="submit" class="btn btn-primary" disabled="@(!context.Validate())">speichern</button>
             </div>
 
         </EditForm>
