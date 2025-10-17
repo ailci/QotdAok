@@ -22,7 +22,12 @@ public partial class AuthorNew
     {
         Logger.LogInformation($"AuthorForCreateVm: {AuthorForCreateVm?.LogAsJson()}");
 
-        var authorVm = await ServiceManager.AuthorService.AddAuthorAsync(AuthorForCreateVm!);
+        var savedAuthor = await ServiceManager.AuthorService.AddAuthorAsync(AuthorForCreateVm!);
+
+        if (savedAuthor is not null)
+        {
+            NavManager.NavigateTo("/authors/overview");
+        }
     }
     private void OnInputFileChange(InputFileChangeEventArgs args)
     {

@@ -29,7 +29,18 @@ public class AuthorService(ILogger<AuthorService> logger, IDbContextFactory<Qotd
 
         logger.LogInformation($"Author: {author.LogAsJson()}");
 
-        return await Task.FromResult(new AuthorViewModel() { Description = "", Name = "" });
+        await context.Authors.AddAsync(author);
+        await context.SaveChangesAsync();
+
+        return new AuthorViewModel
+        {
+            Id = author.Id,
+            Name = author.Name,
+            Description = author.Description,
+            BirthDate = author.BirthDate,
+            Photo = author.Photo,
+            PhotoMimeType = author.PhotoMimeType
+        };
     }
 
     public async Task<bool> DeleteAuthorAsync(Guid authorId)
